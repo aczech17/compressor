@@ -1,0 +1,13 @@
+/CMakeLists.txt
+/data1
+/data2
+/data3
+/data4
+/empty
+/cmake-build-debug/
+/.idea/.gitignore
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/compressor.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
