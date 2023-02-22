@@ -103,6 +103,12 @@ int main(int argc, char** argv)
     }
 
     free_tree(huffman_tree);
+    free_bit_vector(&bit_vector);
+
+    for (i = 0; i < 256; i++)
+    {
+        free(codewords[i]);
+    }
 
     return 0;
 }
