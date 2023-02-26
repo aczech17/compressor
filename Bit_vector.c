@@ -12,6 +12,8 @@ Bit_vector init_bit_vector()
 
 void free_bit_vector(Bit_vector* vector)
 {
+    if (vector == NULL)
+        return;
     free(vector->bits);
 }
 

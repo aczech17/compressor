@@ -78,11 +78,11 @@ int main(int argc, char** argv)
 
         sort_vector(&node_vector);
     }
-
     Tree_node* huffman_tree = node_vector.nodes[0];
 
     pop_front_node(&node_vector);
     free(node_vector.nodes);
+
 
     Bit_vector* codewords[256];
     int i;
@@ -102,14 +102,15 @@ int main(int argc, char** argv)
         }
     }
 
-    free_tree(huffman_tree);
     free_bit_vector(&bit_vector);
 
     for (i = 0; i < 256; i++)
     {
+        free_bit_vector(codewords[i]);
         free(codewords[i]);
     }
 
+    free_tree(huffman_tree);
+
     return 0;
 }
-
