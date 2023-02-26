@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include "Node_vector.h"
 
-
 static int compare_nodes(const void* a, const void* b)
 {
     Tree_node* node1 = *((Tree_node**)a);

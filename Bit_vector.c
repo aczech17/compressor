@@ -17,17 +17,6 @@ void free_bit_vector(Bit_vector* vector)
     free(vector->bits);
 }
 
-void reverse_bit_vector(Bit_vector* vector)
-{
-    size_t i;
-    for (i = 0; 2 * i < vector->size; i++)
-    {
-        char tmp = vector->bits[i];
-        vector->bits[i] = vector->bits[vector->size - 1 - i];
-        vector->bits[vector->size - 1 - i] = tmp;
-    }
-}
-
 void push_bit(Bit_vector* vector, char bit)
 {
     if (vector->size + 1 > vector->capacity)

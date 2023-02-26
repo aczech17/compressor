@@ -1,16 +1,11 @@
 #include "Tree_node.h"
 #include <stdlib.h>
 
-#include <stdio.h> // DEBUG
-
 Tree_node* new_tree_node(bool has_value, unsigned char value, unsigned frequency)
 {
     Tree_node* new_node = malloc(sizeof(Tree_node));
     if (new_node == NULL)
-    {
-        printf("Malloc sie zesral\n");
-        exit(2137);
-    }
+        return NULL;
     new_node->has_value = has_value;
     new_node->value = value;
     new_node->frequency = frequency;
