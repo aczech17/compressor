@@ -22,7 +22,7 @@ static void bits_to_string(const Bit_vector** codewords)
         if (codewords[i] != NULL)
         {
             printf("%02X", i);
-            int j;
+            size_t j;
             for (j = 0; j < codewords[i]->size; j++)
             {
                 printf("%c", codewords[i]->bits[j]);
@@ -50,6 +50,16 @@ int main(int argc, char** argv)
     Bit_vector** codewords = get_codewords(input);
 
     bits_to_string((const Bit_vector **) codewords);
+
+
+    int i;
+    for (i = 0; i < 256; i++)
+    {
+
+        free_bit_vector(codewords[i]);
+        free(codewords[i]);
+    }
+    free(codewords);
 
     fclose(input);
     return 0;

@@ -1,9 +1,8 @@
 #include "compress.h"
 #include "Node_vector.h"
 #include <stdlib.h>
-#include <string.h>
 
-void traverse(Tree_node* node, Bit_vector* bit_vector, Bit_vector** codewords)
+static void traverse(Tree_node* node, Bit_vector* bit_vector, Bit_vector** codewords)
 {
     if (node->left)
     {
@@ -23,20 +22,6 @@ void traverse(Tree_node* node, Bit_vector* bit_vector, Bit_vector** codewords)
     {
         codewords[node->value] = copy_bit_vector(bit_vector);
     }
-}
-
-static char* bits_to_string(char value, const Bit_vector* bit_vector)
-{
-    size_t string_size = 2 + bit_vector->size + 10;
-    char* string = calloc(string_size, 1);
-    sprintf(string, "%02X", value);
-    size_t i;
-    for (i = 0; i < bit_vector->size; i++)
-    {
-        strcat(string, bit_vector->bits[i] == '0' ? "0" : "1"); // it needs a string
-    }
-    strcat(string, "\n");
-    return string;
 }
 
 Bit_vector** get_codewords(FILE* input)
@@ -89,6 +74,8 @@ Bit_vector** get_codewords(FILE* input)
     traverse(huffman_tree, bit_vector, codewords);
 
 
+    free_bit_vector(bit_vector);
+    free(bit_vector);
     free_tree(huffman_tree);
     return codewords;
 }
