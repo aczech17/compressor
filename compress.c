@@ -48,7 +48,6 @@ char* get_codewords(FILE* input)
         Tree_node* node = get_node_of_value(&node_vector, byte);
         node->frequency++;
     }
-    fclose(input);
 
     remove_zero_nodes(&node_vector);
 
@@ -73,10 +72,9 @@ char* get_codewords(FILE* input)
 
     if (!huffman_tree->left) // only one character
     {
-        char* result = malloc(5);
-        sprintf(result, "%02X0\n", huffman_tree->value);
+        sprintf(header, "%02X0\n", huffman_tree->value);
         free_tree(huffman_tree);
-        return result;
+        return header;
     }
 
     Bit_vector* codewords[256];
