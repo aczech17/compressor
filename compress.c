@@ -24,8 +24,20 @@ static void traverse(Tree_node* node, Bit_vector* bit_vector, Bit_vector** codew
     }
 }
 
+static bool file_is_empty(FILE* input)
+{
+    fseek(input, 0, SEEK_END); // seek to end of file
+    size_t size = ftell(input); // get current file pointer
+    fseek(input, 0, SEEK_SET); // seek back to beginning of file
+
+    return size == 0;
+}
+
 Bit_vector** get_codewords(FILE* input)
 {
+    if (file_is_empty(input))
+        return NULL;
+
     Node_vector node_vector = init_node_vector();
 
     int byte;
@@ -54,7 +66,6 @@ Bit_vector** get_codewords(FILE* input)
 
     pop_front_node(&node_vector);
     free(node_vector.nodes);
-
 
     Bit_vector** codewords = malloc(256 * sizeof(Bit_vector*));
     int i;

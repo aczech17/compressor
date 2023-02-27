@@ -48,19 +48,21 @@ int main(int argc, char** argv)
     }
 
     Bit_vector** codewords = get_codewords(input);
+    fclose(input);
+
+    if (codewords == NULL)
+        return 0;
 
     bits_to_string((const Bit_vector **) codewords);
-
 
     int i;
     for (i = 0; i < 256; i++)
     {
-
         free_bit_vector(codewords[i]);
         free(codewords[i]);
     }
     free(codewords);
 
-    fclose(input);
+
     return 0;
 }
