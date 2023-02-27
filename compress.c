@@ -39,7 +39,7 @@ static char* bits_to_string(char value, const Bit_vector* bit_vector)
     return string;
 }
 
-char* get_codewords(FILE* input)
+Bit_vector** get_codewords(FILE* input)
 {
     Node_vector node_vector = init_node_vector();
 
@@ -47,7 +47,6 @@ char* get_codewords(FILE* input)
     while ((byte = fgetc(input)) != EOF)
     {
         Tree_node* node = get_node_of_value(&node_vector, byte);
-        //printf("%c", byte);
         node->frequency++;
     }
 
@@ -72,44 +71,24 @@ char* get_codewords(FILE* input)
     free(node_vector.nodes);
 
 
-    if (!huffman_tree->left) // only one character
-    {
-        char* result = calloc(5, 1);
-        sprintf(result, "%02X0\n", huffman_tree->value);
-        free_tree(huffman_tree);
-        return result;
-    }
-
-    Bit_vector* codewords[256];
+    Bit_vector** codewords = malloc(256 * sizeof(Bit_vector*));
     int i;
     for (i = 0; i < 256; i++)
         codewords[i] = NULL;
 
-    Bit_vector bit_vector = init_bit_vector();
-
-    traverse(huffman_tree, &bit_vector, codewords);
-
-    const size_t header_size = 256 * 100; // ???
-    char* header = calloc(header_size, 1);
-
-    for (i = 0; i < 256; i++)
+    Bit_vector* bit_vector = init_bit_vector();
+    if (!huffman_tree->left) // only one character
     {
-        if (codewords[i] != NULL)
-        {
-            char* header_line = bits_to_string((char)i, codewords[i]);
-            strcat(header, header_line);
-            free(header_line);
-        }
+        push_bit(bit_vector, '0');
+        codewords[huffman_tree->value] = bit_vector;
+
+        free_tree(huffman_tree);
+        return codewords;
     }
 
-    free_bit_vector(&bit_vector);
+    traverse(huffman_tree, bit_vector, codewords);
 
-    for (i = 0; i < 256; i++)
-    {
-        free_bit_vector(codewords[i]);
-        free(codewords[i]);
-    }
 
     free_tree(huffman_tree);
-    return header;
+    return codewords;
 }

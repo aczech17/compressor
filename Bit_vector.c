@@ -1,12 +1,12 @@
 #include "Bit_vector.h"
 #include <stdlib.h>
 
-Bit_vector init_bit_vector()
+Bit_vector* init_bit_vector()
 {
-    Bit_vector vector;
-    vector.capacity = 10;
-    vector.size = 0;
-    vector.bits = malloc(vector.capacity * sizeof(*vector.bits));
+    Bit_vector* vector = malloc(sizeof(Bit_vector));
+    vector->capacity = 10;
+    vector->size = 0;
+    vector->bits = malloc(vector->capacity * sizeof(*vector->bits));
     return vector;
 }
 

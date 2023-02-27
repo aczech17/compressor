@@ -10,7 +10,7 @@ typedef struct Bit_vector
     size_t capacity;
 }Bit_vector;
 
-Bit_vector init_bit_vector();
+Bit_vector * init_bit_vector();
 void free_bit_vector(Bit_vector*);
 void push_bit(Bit_vector*, char bit);
 void pop_bit(Bit_vector*);
