@@ -46,6 +46,7 @@ char* get_codewords(FILE* input)
     while ((byte = fgetc(input)) != EOF)
     {
         Tree_node* node = get_node_of_value(&node_vector, byte);
+        //printf("%c", byte);
         node->frequency++;
     }
 
@@ -90,7 +91,7 @@ char* get_codewords(FILE* input)
     {
         if (codewords[i] != NULL)
         {
-            char header_line[12] = {0}; // byte value (2 characters), codeword (up to 8 characters), endline, '\0'
+            char header_line[15] = {0}; // byte value (2 characters), codeword (up to 8 characters), endline, '\0'
 
             sprintf(header_line, "%02X", i); // 2 nibbles
             print_bit_vector(codewords[i], header_line + 2); // then codeword, and then newline
@@ -107,6 +108,5 @@ char* get_codewords(FILE* input)
     }
 
     free_tree(huffman_tree);
-
     return header;
 }
