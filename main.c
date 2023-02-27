@@ -2,6 +2,7 @@
 #include "Node_vector.h"
 #include "compress.h"
 #include <stdlib.h>
+#include <string.h>
 
 void print_nodes(Node_vector node_vector) // DEBUG
 {

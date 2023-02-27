@@ -25,21 +25,22 @@ void traverse(Tree_node* node, Bit_vector* bit_vector, Bit_vector** codewords)
     }
 }
 
-static void print_bit_vector(const Bit_vector* vector, char* str)
+static char* bits_to_string(char value, const Bit_vector* bit_vector)
 {
+    size_t string_size = 2 + bit_vector->size + 10;
+    char* string = calloc(string_size, 1);
+    sprintf(string, "%02X", value);
     size_t i;
-    for (i = 0; i < vector->size; i++)
+    for (i = 0; i < bit_vector->size; i++)
     {
-        strcat(str, vector->bits[i] == '0' ? "0" : "1"); // it needs a string
+        strcat(string, bit_vector->bits[i] == '0' ? "0" : "1"); // it needs a string
     }
-    strcat(str, "\n");
+    strcat(string, "\n");
+    return string;
 }
 
 char* get_codewords(FILE* input)
 {
-    const size_t header_size = 256 * 8;
-    char* header = calloc(header_size, 1);
-
     Node_vector node_vector = init_node_vector();
 
     int byte;
@@ -73,9 +74,10 @@ char* get_codewords(FILE* input)
 
     if (!huffman_tree->left) // only one character
     {
-        sprintf(header, "%02X0\n", huffman_tree->value);
+        char* result = calloc(5, 1);
+        sprintf(result, "%02X0\n", huffman_tree->value);
         free_tree(huffman_tree);
-        return header;
+        return result;
     }
 
     Bit_vector* codewords[256];
@@ -87,15 +89,16 @@ char* get_codewords(FILE* input)
 
     traverse(huffman_tree, &bit_vector, codewords);
 
+    const size_t header_size = 256 * 100; // ???
+    char* header = calloc(header_size, 1);
+
     for (i = 0; i < 256; i++)
     {
         if (codewords[i] != NULL)
         {
-            char header_line[15] = {0}; // byte value (2 characters), codeword (up to 8 characters), endline, '\0'
-
-            sprintf(header_line, "%02X", i); // 2 nibbles
-            print_bit_vector(codewords[i], header_line + 2); // then codeword, and then newline
+            char* header_line = bits_to_string((char)i, codewords[i]);
             strcat(header, header_line);
+            free(header_line);
         }
     }
 
